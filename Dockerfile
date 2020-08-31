@@ -10,12 +10,12 @@ RUN apk update \
     && cd / \
     && rm -rf /tmp/luarocks
 
-RUN cd /tmp \
-    && git clone https://github.com/Tieske/netatmo.lua.git \
-    && cd netatmo.lua \
-    && luarocks make \
-    && cd / \
-    && rm -rf /tmp/netatmo.lua
+# install dependencies separately to not have --dev versions for them as well
+RUN luarocks install luasec
+RUN luarocks install lua-cjson
+RUN luarocks install lualogging
+# install latest scm rockspec --dev version
+RUN luarocks install netatmo --dev
 
 
 
